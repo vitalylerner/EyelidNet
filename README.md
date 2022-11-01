@@ -41,9 +41,9 @@ or with
 1. Press **Work on current Image**
 1. Select 8 points as shown here . **!!!ORDER MATTERS!!!** 
 points 1-2-3-4-5 describe the upper eyelid  LTR and points 5-6-7-8-1 describe  the lower one RTL
-![explanation image](Explanation.png). 
-**Exact location of inner points(2,3,4,6,7,8) is not critical, any three inner points are good enough**. At the next stage, description by points will be later converted to polynomial approximation of 3rd order. But limiting points, 1 and 8 are more important.
-How to work with the mouse:
+![explanation image](Explanation.png)
+0. **Exact location of inner points(2,3,4,6,7,8) is not critical, any three inner points are good enough**. At the next stage, description by points will be later converted to polynomial approximation of 3rd order. But limiting points, 1 and 8 are more important.
+1. How to work with the mouse:
 - Left click to select a point, 
 - Right click for "undo"
 - Do not press the middle button
