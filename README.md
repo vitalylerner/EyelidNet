@@ -9,28 +9,38 @@ The following packages are required:
 - numpy
 - tkinter
 - matplotlib
-## Separate environment
-If needed, create a separate python environment (let's call it `eyelid`)
+## Separate environment with anaconda
+If needed, create a separate python environment (let's call it `eyelid`) to prevent version interference with other programs
 
-1. Open  Anaconda Prompt (skip to 3 if no separate environment needed)
+1. Open  Anaconda Prompt 
 2. `conda create -name eyelid python=3.8 numpy  matplotlib`
 3. `conda activate eyelid`
 4. `conda install numpy matplotlib`
 5. `conda install -c conda-forge tk`
 
+## simple installation of packages with pip/conda
+Just install tkinter with 
+- `conda install matplotlib`
+- `conda install numpy`
+- `conda install -c conda-forge tk`
 
+or with
+
+- `pip install numpy matplotlib`
+- `pip install tk`
 
 
 # Marking eye lids with the program
-Run the program by 
-1. `cd <path to the the directory with EyelidNet_manual.py>`
-1.`python EyelidNet_manual.py`
+1. Run the program by 
+`cd <path to the the directory with EyelidNet_manual.py>`
+1. `python EyelidNet_manual.py`
 ![explanation image](Explanation2.png)
-1. Download the images and put them in a certain folder *<path_to_folder>*
+1. Download the images (P1,P2,P3) and put them in a certain folder *<path_to_folder>*
 1. Press **Images folder...** and navigate to the *<path_to_folder>*
 1. If first time, press "New Session" and create a session file, preferably not in the *<path_to_folder>*
 1. Press **Work on current Image**
-1. Select 8 points as shown here . **!!!ORDER MATTERS!!!**:
+1. Select 8 points as shown here . **!!!ORDER MATTERS!!!** 
+points 1-2-3-4-5 describe the upper eyelid  LTR and points 5-6-7-8-1 describe  the lower one RTL
 ![explanation image](Explanation.png)
 How to work with the mouse:
 - Left click to select a point, 
