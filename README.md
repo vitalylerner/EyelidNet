@@ -20,14 +20,14 @@ If needed, create a separate python environment (let's call it `eyelid`) to prev
 
 ## simple installation of packages with pip/conda
 Just install tkinter with 
-`conda install matplotlib`
-`conda install numpy`
-`conda install -c conda-forge tk`
+- `conda install matplotlib`
+- `conda install numpy`
+- `conda install -c conda-forge tk`
 
 or with
 
-`pip install numpy matplotlib`
-`pip install tk`
+- `pip install numpy matplotlib`
+- `pip install tk`
 
 
 
