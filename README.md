@@ -40,15 +40,14 @@ or with
 1. If first time, press "New Session" and create a session file, preferably not in the *<path_to_folder>*
 1. Press **Work on current Image**
 1. Select 8 points as shown here . 
-  1. **!!!ORDER MATTERS!!!** 
-  1.points 1-2-3-4-5 describe the upper eyelid  LTR and points 5-6-7-8-1 describe  the lower one RTL
-![explanation image](Explanation.png)
-  1. **Exact location of inner points(2,3,4,6,7,8) is not critical, any three inner points are good enough**. At the next stage, description by points will be later converted to polynomial approximation of 3rd order. But limiting points, 1 and 8 are more important.
-  1. How to work with the mouse:
-    - Left click to select a point, 
-    - Right click for "undo"
-    - Do not press the middle button
-    - **If zoom in needed, right click after the zoom in, otherwize, a point will be created at the top left corner of the zoom region**
+  i. **!!!ORDER MATTERS!!!** 
+  i. points 1-2-3-4-5 describe the upper eyelid  LTR and points 5-6-7-8-1 describe  the lower one RTL ![explanation image](Explanation.png)
+  i. **Exact location of inner points(2,3,4,6,7,8) is not critical, any three inner points are good enough**. At the next stage, description by points will be later converted to polynomial approximation of 3rd order. But limiting points, 1 and 8 are more important.
+  i. How to work with the mouse:
+    1. Left click to select a point, 
+    1. Right click for "undo"
+    1. Do not press the middle button
+    1. **If zoom in needed, right click after the zoom in, otherwize, a point will be created at the top left corner of the zoom region**
 1. If you're satisfied with the result shown on the main window, click "Work on Next Image"
 Otherwise, repeat the current image with **Work on current Image**
 1. If you're tired, just close the window
