@@ -9,15 +9,21 @@ The following packages are required:
 - numpy
 - tkinter
 - matplotlib
-## Separate environment
-If needed, create a separate python environment (let's call it `eyelid`)
+## Separate environment with anaconda
+If needed, create a separate python environment (let's call it `eyelid`) to prevent version interference with other programs
 
-1. Open  Anaconda Prompt (skip to 3 if no separate environment needed)
+1. Open  Anaconda Prompt 
 2. `conda create -name eyelid python=3.8 numpy  matplotlib`
 3. `conda activate eyelid`
 4. `conda install numpy matplotlib`
 5. `conda install -c conda-forge tk`
 
+## simple installation of packages with pip/conda
+Just install tkinter with 
+`conda install -c conda-forge tk'
+or wih
+'pip install numpy matplotlib'
+'pip install tk'
 
 
 
