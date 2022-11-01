@@ -22,9 +22,9 @@ If needed, create a separate python environment (let's call it `eyelid`)
 
 
 # Marking eye lids with the program
-1.Run the program by 
+1. Run the program by 
 `cd <path to the the directory with EyelidNet_manual.py>`
-1.`python EyelidNet_manual.py`
+1. `python EyelidNet_manual.py`
 ![explanation image](Explanation2.png)
 1. Download the images and put them in a certain folder *<path_to_folder>*
 1. Press **Images folder...** and navigate to the *<path_to_folder>*
