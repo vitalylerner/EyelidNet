@@ -8,26 +8,44 @@ The main file is EyelidNet_Manual.py
 The following packages are required:
 - numpy
 - tkinter
+- pandas
 - matplotlib
-## Separate environment with anaconda
+
+## Windows 
+### Separate environment with anaconda
 If needed, create a separate python environment (let's call it `eyelid`) to prevent version interference with other programs
 
 1. Open  Anaconda Prompt 
-2. `conda create -name eyelid python=3.8 numpy  matplotlib`
-3. `conda activate eyelid`
-4. `conda install numpy matplotlib`
-5. `conda install -c conda-forge tk`
+2. `> conda create -name eyelid python=3.8 numpy  matplotlib`
+3. `> conda activate eyelid`
+4. `> conda install numpy matplotlib pandas`
+5. `> conda install -c conda-forge tk`
 
-## simple installation of packages with pip/conda
-Just install tkinter with 
-- `conda install matplotlib`
-- `conda install numpy`
-- `conda install -c conda-forge tk`
+### Without separate environment
+ 
+- `> conda install matplotlib`
+- `> conda install numpy`
+- `> conda install pandas`
+- `> conda install -c conda-forge tk`
 
 or with
 
-- `pip install numpy matplotlib`
-- `pip install tk`
+- `> pip install numpy matplotlib pandas`
+- `> pip install tk`
+
+## Linux 
+first, look what version of python it is by reading `$ python` first line of output
+### Create a new environment in a dedicated directory
+- If venv is not installed then
+   - `$ sudo apt-get install python3.10-venv`
+- in terminal, cd to the directory
+- `$ python3 -m venv eyelid`
+- `$ source eyelid/bin/activate`
+
+### packages installations. 
+Let's say it's 3.10
+- `$ pip3 install numpy matplotlib pandas`
+- `$ sudo apt-get install python3.10-tk`
 
 
 # Marking eye lids with the program

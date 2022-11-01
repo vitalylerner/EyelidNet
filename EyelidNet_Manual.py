@@ -131,7 +131,10 @@ class EyelidNetManual(tk.Tk):
 
         fTmp=plt.figure()
         mgr=plt.get_current_fig_manager()
-        mgr.window.setGeometry(50,100,650,700)
+        try:
+        	mgr.window.setGeometry(50,100,650,700)
+        except:
+        	pass
         axTmp=fTmp.add_subplot(111)
         
         plt.imshow(img)
