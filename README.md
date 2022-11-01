@@ -40,7 +40,8 @@ or with
 1. Press **Images folder...** and navigate to the *<path_to_folder>*
 1. If first time, press "New Session" and create a session file, preferably not in the *<path_to_folder>*
 1. Press **Work on current Image**
-1. Select 8 points as shown here . **!!!ORDER MATTERS!!!**:
+1. Select 8 points as shown here . **!!!ORDER MATTERS!!!** 
+points 1-2-3-4-5 describe the upper eyelid  LTR and points 5-6-7-8-1 describe  the lower one RTL
 ![explanation image](Explanation.png)
 How to work with the mouse:
 - Left click to select a point, 
