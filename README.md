@@ -16,7 +16,7 @@ The following packages are required:
 If needed, create a separate python environment (let's call it `eyelid`) to prevent version interference with other programs
 
 1. Open  Anaconda Prompt 
-2. `> conda create -name eyelid python=3.8 numpy  matplotlib`
+2. `> conda create -n eyelid python=3.8 numpy  matplotlib`
 3. `> conda activate eyelid`
 4. `> conda install numpy matplotlib pandas`
 5. `> conda install -c conda-forge tk`
