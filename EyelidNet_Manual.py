@@ -1,3 +1,9 @@
+#*************************************#
+#    EyelidNet
+# Vitay Lerner 2022
+# Hebrew University of Jerusalem
+# UI of manual labeling of points
+#*************************************#
 import tkinter as tk
 from numpy import *
 import os

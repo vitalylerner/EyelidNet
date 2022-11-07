@@ -1,3 +1,12 @@
+#*************************************#
+#    EyelidNet
+# Vitay Lerner 2022
+# This file generates sets of images 
+# and polynoms from raw images 
+# each image is slighlty rotated and 
+# translated
+#*************************************#
+
 from numpy import *
 from matplotlib.pyplot import *
 import cv2
@@ -5,15 +14,12 @@ import os
 import pandas as pd
 from scipy import ndimage
 
+from EyelidNet_Error import *
 
 class EyelidNet_Manual2Dataset():
-    class EyelidNet_Error(RuntimeError):
-         def __init__(self,message):
-            super().__init__("\n***********\n EyelidNet: \n"+message+"\n***********")
 
-    EN_NoManualPointsErr=EyelidNet_Error("Curently there is no result created with manual clicking")
-    EN_ImgNOutOfRangeErr=EyelidNet_Error('Image Number out of range')
-    EN_RecordError=EyelidNet_Error('Points of image not found')   
+
+
     D={}
     tmpImg={}
     
@@ -29,7 +35,7 @@ class EyelidNet_Manual2Dataset():
     def img_read(self,*, fld:str, imgn:int):
         L=int(self.L/2)
         if fld in self.D.keys():
-            fname=fld+'/img{:03d}.png'.format(imgn)
+            fname=fld+'RawImages/img{:03d}.png'.format(imgn)
             if (os.path.exists(fname)):
                 img=cv2.imread(fname)
                 img=squeeze(img[:,:,0])
@@ -65,11 +71,11 @@ class EyelidNet_Manual2Dataset():
                     raise EN_RecordError
             else:
                 self.tmpImg={}
-                raise self.EN_ImgNOutOfRangeErr
+                raise EN_ImgNOutOfRangeErr
            
         else:
             self.tmpImg={}  
-            raise self.EN_NoManualPointsErr
+            raise EN_NoManualPointsErr
     def img_reset(self):
         self.img_read(fld=self.tmpImg['fld'],imgn=self.tmpImg['imgn'])
         
@@ -226,7 +232,7 @@ class EyelidNet_Manual2Dataset():
         pUp= pUp/scaling_f
         pDown=pDown/scaling_f
         params=list(pUp)+list(pDown)+[x[0]*1./scaling_f]+[x[4]*1./scaling_f]
-
+        #params=[x[0]*1./scaling_f,x[4]*1./scaling_f,y[0]*1./scaling_f,y[4]*1./scaling_f]
         #scale image to NxN
         img=cv2.resize(img,(self.N,self.N))
         scaling_f=self.L*1./self.N
@@ -254,6 +260,8 @@ class EyelidNet_Manual2Dataset():
         pUp1d=poly1d(pUp)
         pDown1d=poly1d(pDown)
         params=list(pUp)+list(pDown)+[x[0]]+[x[4]]
+        
+        #params=[x[0],x[4],y[0],y[4]]
         return params
     
     def img_generate_set(self,*,fld:str,imgn:int,ranges:dict):
@@ -266,7 +274,7 @@ class EyelidNet_Manual2Dataset():
         N=self.N
         noise   = ranges['noise']
         IMG=zeros( [Nimages,N,N],dtype=uint8)
-        PARAMS=zeros((Nimages,10),dtype=float)
+        PARAMS=zeros((Nimages,EN_NFeatures),dtype=float)
         k=0
         for ideg,deg in enumerate(DEG):
             for ix,dx in enumerate(XSHIFT):
@@ -317,7 +325,7 @@ class EyelidNet_Manual2Dataset():
         
         
     def __init__(self,*,N:int=50):
-        lstFld=[f for f in os.listdir() if os.path.isdir(f) ]
+        lstFld=[f for f in os.listdir('RawImages/') if os.path.isdir(f) ]
         
         lstFld=[f for f in lstFld if f[0]=='P']
         fRaw='RawPoints/'
@@ -345,7 +353,7 @@ class EyelidNet_Manual2Dataset():
                self.img_read(fld=fld,imgn=imgn) 
                self.img_show('Crop')
         else:
-            raise self.EN_RecordError
+            raise EN_RecordError
             
 
             
