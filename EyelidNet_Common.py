@@ -1,3 +1,10 @@
+#***************************************#
+#    EyelidNet                          #
+# Vitay Lerner 2022                     #
+# Common structures and functions       #
+# this file does not run by itself      #
+#***************************************#
+
 from numpy import *
 from scipy.interpolate import interp1d
 class EyelidNet_Error(RuntimeError):

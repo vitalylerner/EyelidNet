@@ -1,13 +1,13 @@
-#*************************************#
-#    EyelidNet
-# Vitay Lerner 2022
-# Creates and trains the network
-#*************************************#
+#***************************************#
+#    EyelidNet                          #
+# Vitay Lerner 2022                     #
+# Main Class of the EyelidNet           #
+# this file does not run by itself      #
+#***************************************#
 
 
 # if there's a problem with some dual library 
 # $ conda install nomkl
-
 
 
 
@@ -64,12 +64,11 @@ class EyelidNet:
             self.scale_range=D['scale_range']
             self.feat_stats=pd.read_csv(fName_scaling)
             print (self.feat_stats.head())
-
-        
+            
     
-#***************************************************#
-# Scaling of the output parameters                  #
-#***************************************************#   
+    #***************************************************#
+    # Scaling of the output parameters                  #
+    #***************************************************#   
     def feat_unscale(self,a_scaled):
         a=a_scaled*1.
         stats_max=array(list(self.feat_stats["max"]))
@@ -90,9 +89,9 @@ class EyelidNet:
         return a
         
 
-#***************************************************#
-#        Eye pixel count (EPC)                      #
-#***************************************************#
+    #***************************************************#
+    #        Eye pixel count (EPC)                      #
+    #***************************************************#
     def get_eyepixelscount(self,a):
         x,yUp,yDown=self.get_eyelids(a)
         return int(sum(abs(yUp-yDown)))
@@ -119,9 +118,9 @@ class EyelidNet:
         yDown=pDown1d(x)
         return x,yUp,yDown
         
-#***************************************************#
-#        Graphics                                   #
-#***************************************************#    
+    #***************************************************#
+    #        Graphics                                   #
+    #***************************************************#    
         
     def show_input_output(self,I,a,newfigure:bool=False,color:list=[]):
         if color==[]:
@@ -137,9 +136,9 @@ class EyelidNet:
         plot(x,yUp,color=color[1])
         plot(x,yDown,color=color[2])    
         
-#***************************************************#
-#        NN                                         #
-#***************************************************#  
+    #***************************************************#
+    #        NN                                         #
+    #***************************************************#  
 
     def nn_load (self):    
         #loads pre-trained model

@@ -1,8 +1,8 @@
 #*************************************#
-#    EyelidNet
-# Vitay Lerner 2022
-# Hebrew University of Jerusalem
-# UI of manual labeling of points
+#    EyelidNet                        #
+# Vitay Lerner 2022                   #
+# Hebrew University of Jerusalem      #
+# UI of manual annotation of points   #
 #*************************************#
 import tkinter as tk
 from numpy import *
@@ -21,14 +21,14 @@ from matplotlib.backends.backend_tkagg import (
 K=['imgn']+['x{}'.format(i) for i in range(8)]+ ['y{}'.format(i) for i in range(8)]
 
 
-class EyelidNetManual(tk.Tk):
+class EyelidNet_Annotation(tk.Tk):
     D=pd.DataFrame(columns=K)
     folder=""
     axState=None
     curImg=0
-#*************************************************#
-#         Working with paths                      #
-#*************************************************#
+    #*************************************************#
+    #         Working with paths                      #
+    #*************************************************#
     def browse(self):
         # Opens "Selet Folder Dialog" 
         file_path = tk.filedialog.askdirectory()
@@ -67,9 +67,9 @@ class EyelidNetManual(tk.Tk):
         except IndexError:
             self.txtSessionPath.delete(0,tk.END)
             self.txtSessionPath.insert(0,'Load or create a new session file')
-#*************************************************#
-#         State of the session                    #
-#*************************************************# 
+    #*************************************************#
+    #         State of the session                    #
+    #*************************************************# 
     def get_first_available(self):
         # get first not-yet-marked image number
         I=set(list(self.D['imgn']))
@@ -121,9 +121,10 @@ class EyelidNetManual(tk.Tk):
         self.curImg=self.get_first_available()
         self.lblCurImg.config(text='{}'.format(self.curImg))
         self.image_show()
-#*************************************************#
-#         Core functions                          #
-#*************************************************# 
+        
+    #*************************************************#
+    #         Core functions                          #
+    #*************************************************# 
     def image_show(self):
         # Shows a current image and waits for 8 points
         # Then shows the result in the main window
@@ -168,6 +169,7 @@ class EyelidNetManual(tk.Tk):
         self.D=self.D.append(d, ignore_index=True)
         self.plotState()
         self.D.to_csv(self.txtSessionPath.get(),index=False)
+        
     def __init__(self):
         # Creates Main Window and UI assigns UI functions to 
         # events
@@ -242,5 +244,5 @@ class EyelidNetManual(tk.Tk):
         
 
 if __name__ == '__main__':
-    ENM = EyelidNetManual()
+    ENM = EyelidNet_Annotation()
     ENM.mainloop()

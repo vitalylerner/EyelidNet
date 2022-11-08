@@ -58,13 +58,14 @@ def mov2imgseq():
     
 def nn_load():
     global ELN
-    Network_V='1.3'
+    Network_V='1.1'
     TrainingSet_V='1'
     ELN=EyelidNet(tr_set_ver=TrainingSet_V,net_ver=Network_V)
 start_from_npz=False
 start_from_cropped=True
 start_nn=True
 show_analysis=False
+
 if start_from_npz:
     IMG_CROP=[]    
     IMG=mov_loadnpz()
@@ -83,10 +84,11 @@ if start_nn:
     print ('')
     result_npz=mov_dir+'movie{}_analysis.npz'.format(imov)
 
-
-    for imgn in range(nimages):
+    
+    for imgn in range(0,nimages,10):
         #print (nimages,imgn)
         img=IMG_CROP[imgn:imgn+1,:,:]
+        img0=squeeze(IMG_CROP[imgn,:,:])
         a=ELN.nn_predict(img)
         epc=ELN.get_eyepixelscount(a)
         EPC[imgn]=epc
@@ -94,6 +96,10 @@ if start_nn:
         if imgn%20==0:
             print('{}/{}     '.format(imgn,nimages),end='\r')
             savez(result_npz,EPC=EPC,A=A)
+        f=figure() 
+        ELN.show_input_output(img0,a,False)
+        savefig('IMG/{}.png'.format(imgn))
+        close(f)
     #mov_preview()
     savez(result_npz,EPC=EPC,A=A)    
     #cv2.waitKey(0)    

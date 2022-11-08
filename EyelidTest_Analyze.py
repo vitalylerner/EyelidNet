@@ -7,5 +7,7 @@ result_npz=mov_dir+'movie{}_analysis.npz'.format(imov)
 with load(result_npz) as D:
     EPC=D['EPC']
     A=D['A']
-plot(EPC)
+
+EPC[EPC==0]=None    
+plot(EPC,'.')
 show()
