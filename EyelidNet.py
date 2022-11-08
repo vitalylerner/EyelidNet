@@ -168,7 +168,12 @@ class EyelidNet:
             raise EN_NN_NotFoundErr
             
     def nn_predict(self,img):
-        a=squeeze(self.model.predict([img],verbose=0))
+        if shape(img)[0]==40:
+            img2=expand_dims(img,0)
+        elif shape(img)[0]==1:
+            img2=img*1
+            
+        a=squeeze(self.model.predict(img2,verbose=0))
         a=self.feat_unscale(a)
         return a
         
