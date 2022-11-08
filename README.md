@@ -1,7 +1,21 @@
-# EyelidNet 
-## Vitaly Lerner , 2022
+# EyelidNet
+ 
+### Vitaly Lerner , 2022
 
-## Manual annotation 
+
+# Pre Requisites
+
+# Use
+Download [EyelidNet_Minimal.zip](EyelidNet_Minimal.zip) 
+Unzip
+Run `python EyelidNet_MinimalTest.py`
+
+
+# Manual annotation 
 See the documentation of [EyelidNet_Manual](Documentation/EyelidNet_Manual.md)
 
-# Installation
+# Training
+
+
+
+
