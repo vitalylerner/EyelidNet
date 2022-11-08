@@ -1,7 +1,7 @@
 # EyelidNet 
 ## Vitaly Lerner , 2022
 
-## Manual Labeling of points 
+## Manual annotation 
 See the documentation of [EyelidNet_Manual](Documentation/EyelidNet_Manual.md)
 
 # Installation
