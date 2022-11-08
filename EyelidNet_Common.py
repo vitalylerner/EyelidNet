@@ -20,9 +20,8 @@ def EyelidNet_updatestatus(source:str,message:str):
 def equipoints(a):
     #converts
     #p13 p12 p11 p10 p23 p22 p21 p20 x0 x1 
-    #to 8
-    #equally distanced 8 points
-    #on the eyelids
+    #to 4 points describind the edges
+    #of the eyelids
     
     xst=a[8]
     xend=a[9]
