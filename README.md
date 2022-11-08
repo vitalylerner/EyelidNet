@@ -6,8 +6,10 @@
 # Pre Requisites
 
 # Use
-Download [EyelidNet_Minimal.zip](EyelidNet_Minimal.zip) 
+Download [EyelidNetMinimal.zip](EyelidNetMinimal.zip) 
+
 Unzip
+
 Run `python EyelidNet_MinimalTest.py`
 
 
