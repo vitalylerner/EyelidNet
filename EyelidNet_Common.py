@@ -35,7 +35,7 @@ def equipoints(a):
     y1=p1(x1)
     y2=p2(x2)
     
-    alpha = linspace(0, 1, 5)
+    alpha = linspace(0, 1, 3)
     
     distance = cumsum(sqrt( ediff1d(x1, to_begin=0)**2 + ediff1d(y1, to_begin=0)**2 ))
     distance = distance/distance[-1]
@@ -46,13 +46,14 @@ def equipoints(a):
     distance = distance/distance[-1]
     fx2, fy2 = interp1d( distance, x2 ), interp1d( distance, y2 )
     x_reg2, y_reg2 = fx2(alpha), fy2(alpha)
-    x_reg2,y_reg2=x_reg2[3:0:-1],y_reg2[3:0:-1]
-    x_reg=hstack([x_reg1,x_reg2])
-    y_reg=hstack([y_reg1,y_reg2])
+    
+    #x_reg2,y_reg2=x_reg2[3:0:-1],y_reg2[3:0:-1]
+    x_reg=array([x_reg1[0],x_reg1[1],x_reg1[2],x_reg2[1]],dtype=float)
+    y_reg=array([y_reg1[0],y_reg1[1],y_reg1[2],y_reg2[1]],dtype=float)
 
     return hstack([x_reg,y_reg])
     
-EN_NFeatures=16
+EN_NFeatures=8
 #**********Labeling errors***************#
 EN_NoManualPointsErr    = EyelidNet_Error("Curently there is no result created with manual clicking")
 EN_ImgNOutOfRangeErr    = EyelidNet_Error('Image Number out of range')

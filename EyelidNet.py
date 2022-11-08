@@ -92,50 +92,72 @@ class EyelidNet:
     #***************************************************#
     #        Eye pixel count (EPC)                      #
     #***************************************************#
-    def get_eyepixelscount(self,a):
-        x,yUp,yDown=self.get_eyelids(a)
-        return int(sum(abs(yUp-yDown)))
-        
 
+    def get_eyepixelscount(self,a):
+        if False:
+        
+            x,yUp,yDown=self.get_eyelids(a)
+            return int(sum(abs(yUp-yDown)))
+        else:
+            x0,x1,x2,x3=a[0],a[1],a[2],a[3]
+            y0,y1,y2,y3=a[4],a[5],a[6],a[7]
+            
+            d1=sqrt((x2-x0)**2+(y2-y0)**2)
+            d2=sqrt((x3-x1)**2+(y3-y1)**2)
+            return 0.9*d2 +0.1*d1
+            
     def get_eyelids(self,a):
-        x=array(a[:8])
-        y=array(a[8:])
-        xfitup=x[:5]
-        yfitup=y[:5]
-        xfitdown=hstack([x[4:],x[0]])
-        yfitdown=hstack([y[4:],y[0]])
-        pUp=polyfit(xfitup,yfitup,3)
-        pDown=polyfit(xfitdown,yfitdown,3)
-        pUp1d=poly1d(pUp)
-        pDown1d=poly1d(pDown)
-        
-        fUp=poly1d(a[0:4])
-        fDown=poly1d(a[4:8])
-        x0=x[0]
-        x1=x[4]
-        x=arange(x0,x1+1)
-        yUp=pUp1d(x)
-        yDown=pDown1d(x)
-        return x,yUp,yDown
-        
+        if False: 
+            x=array(a[:8])
+            y=array(a[8:])
+            xfitup=x[:5]
+            yfitup=y[:5]
+            xfitdown=hstack([x[4:],x[0]])
+            yfitdown=hstack([y[4:],y[0]])
+            pUp=polyfit(xfitup,yfitup,3)
+            pDown=polyfit(xfitdown,yfitdown,3)
+            pUp1d=poly1d(pUp)
+            pDown1d=poly1d(pDown)
+            
+            fUp=poly1d(a[0:4])
+            fDown=poly1d(a[4:8])
+            x0=x[0]
+            x1=x[4]
+            x=arange(x0,x1+1)
+            yUp=pUp1d(x)
+            yDown=pDown1d(x)
+            return x,yUp,yDown
+        else:
+            x0,x1,x2,x3=a[0],a[1],a[2],a[3]
+            y0,y1,y2,y3=a[4],a[5],a[6],a[7]
+            
+            xline1=[x0,x2]
+            yline1=[y0,y2]
+            xline2=[x1,x3]
+            yline2=[y1,y3]
+            
+        return xline1,yline1,xline2,yline2
     #***************************************************#
     #        Graphics                                   #
     #***************************************************#    
         
-    def show_input_output(self,I,a,newfigure:bool=False,color:list=[]):
+    def show_input_output(self,I,a,newfigure:bool=False,color='k'):
         if color==[]:
-            color=[[0.1,0.1,0.1,0.5],[0.8,0.8,0.8,0.8],[0.8,0.8,0.8,0.8]]
+            color=self.clr_true
         if newfigure:
             figure()
         imshow(I)
-        x,yUp,yDown=self.get_eyelids(a)
+        xUp,yUp,xDown,yDown=self.get_eyelids(a)
+        xp=a[:4]
+        yp=a[4:]
         
-        xp=a[:8]
-        yp=a[8:]
-        plot(xp,yp,'o',color=color[0])
-        plot(x,yUp,color=color[1])
-        plot(x,yDown,color=color[2])    
+        plot(xp,yp,'o',color=color)
+        plot(xUp,yUp,color=color)
+        plot(xDown,yDown,color=color)    
         
+        epc=self.get_eyepixelscount(a)
+        text(xp[0],yp[0],'{:.1f}'.format(epc),color=color)
+
     #***************************************************#
     #        NN                                         #
     #***************************************************#  
