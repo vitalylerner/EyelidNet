@@ -7,8 +7,9 @@ mode='Movie'
 
 mov_dir='D:/Inbar_Eyeblink/EyesTrain/OriginalMat/'
 fig_cnt=0
-MOV_RECT={1:[100,200,100,200],7:[70,150,40,120],8:[30,90,20,80]}
-imov=7
+MOV_RECT={1:[90,180,100,190],7:[70,150,40,120],8:[30,90,20,80]}
+imov=1
+NetV='1.6'
 
 def mov_convert(imov:int):
     mov_fname_mat=mov_dir+'vid{}.mat'.format(imov)
@@ -54,22 +55,29 @@ def mov2imgseq():
         IMG_CROP[imgn,:,:]=cv2.resize(img,(40,40))
     
 def nn_load():
-    global ELN
-    Network_V='1.6'
+    global ELN, NetV
+    Network_V=NetV
     TrainingSet_V='1'
     ELN=EyelidNet(tr_set_ver=TrainingSet_V,net_ver=Network_V)
-    
-start_from_npz=True
+start_from_mat=False   
+start_from_npz=False
+start_from_preview=False
 start_from_cropped=True
 start_nn=True
 show_analysis=False
 
+if start_from_mat:
+    mov_convert(imov)
+    print ('conversion...done')
 if start_from_npz:
     IMG_CROP=[]    
     IMG=mov_loadnpz()
     crop_npz=mov_dir+'vid{}_cropped.npz'.format(imov)
     mov2imgseq()
     savez_compressed(crop_npz,IMG=IMG_CROP)
+if start_from_preview:
+    mov_preview()
+    cv2.waitKey(0)
 if start_from_cropped:
     IMG_CROP=mov_loadcroppednpz()
 if start_nn:   
@@ -80,7 +88,7 @@ if start_nn:
     EPC=zeros(nimages)
     A=zeros((nimages,EN_NFeatures))
     print ('')
-    result_npz=mov_dir+'movie{}_analysis.npz'.format(imov)
+    result_npz=mov_dir+'movie{}_analysis_v'.format(imov)+NetV+'.npz'
 
     
     for imgn in range(0,nimages,10):
@@ -103,7 +111,7 @@ if start_nn:
     savez(result_npz,EPC=EPC,A=A)    
     #cv2.waitKey(0)    
 if show_analysis:
-    result_npz=mov_dir+'movie{}_analysis.npz'.format(imov)
+    result_npz=mov_dir+'movie{}_analysis_v'.format(imov)+NetV+'.npz'
     with load(result_npz) as D:
         EPC=D['EPC']
         A=D['A']

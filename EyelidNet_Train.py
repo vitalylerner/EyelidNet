@@ -12,6 +12,7 @@
 #      Parsing arguments                    #
 #*******************************************#
 import argparse
+import time
 parser = argparse.ArgumentParser(description='Trains the Eyelid Network')
 parser.add_argument('--mode', help='preview,train,validate',type=str,required=True)
 parser.add_argument('--net_ver', help='1.1, 1.2,...',type=str,required=False)
@@ -179,7 +180,7 @@ class EyelidNet_Train(EyelidNet):
     def nn_peek(self,imglst:list=[]):
         img=self.images
         if len(imglst)==0:
-            imglst=list(range(10,25020,5000))
+            imglst=list(range(10,25020,1250))
         for imgn in imglst:
         
             I=img[imgn,:,:]
@@ -208,7 +209,7 @@ class EyelidNet_Train(EyelidNet):
         filter_size1 = 2
         pool_size1 = 2
         
-        num_filters2 = 32 
+        num_filters2 = 100 
         filter_size2 = 2
         pool_size2 = 2
         
@@ -220,8 +221,8 @@ class EyelidNet_Train(EyelidNet):
           #Dropout(0.5), 
           Flatten(),
           #Dense(32,activation='softmax'),
-          Dense(128,activation='softmax'),
-          Dense(64,activation='softmax'),
+          Dense(128,activation='sigmoid'),
+          Dense(64,activation='sigmoid'),
           Dense(32,activation='sigmoid'),
           Dense(EN_NFeatures, activation='sigmoid'),
             ])
@@ -269,6 +270,9 @@ class EyelidNet_Train(EyelidNet):
 
             self.nn_peek()
             self.model.save(fName_Model)
+            
+            print('Ctrl+C for stop now',end='\r')
+            time.sleep(3) 
             #self.model.save_weights(self.path_nn+'EyelidsNet_v'+self.net_ver+'.{}.hd5'.format(iEpoch))
         EyelidNet_updatestatus('NN','Training end')
 
@@ -334,7 +338,7 @@ elif program_mode=='validate':# view results of training
         if imgn%1000==0:
             figure()
             plot(EPC_GT,EPC_PRED,'.')
-            savefig('IMG/0_EPC.png')
+            savefig('IMG/0_EPC_v'+Network_V+'.png')
             close(gcf())
         show()
 else:
