@@ -19,22 +19,26 @@ parser.add_argument('--tr_set_vet', help='1, 2',type=str,required=False)
 args = parser.parse_args()
 Network_V='1.4'
 TrainingSet_V='1'
-try:
+if not args.mode==None:
     program_mode=args.mode
-except AttributeError:
+else:
     parser.print_help()
     exit()
-
 try:
-    Network_V=args.net_ver
-except AttributeError:
+    if not args.net_ver==None:
+        Network_V=args.net_ver
+except:
     pass
-try:
-    TrainingSet_V=args.tr_set_ver
-except AttributeError:
-    pass  
     
-if not program_mode=='error':
+try:    
+    if not args.tr_set_ver==None:
+        TrainingSet_V=args.tr_set_ver
+except:
+    pass
+
+print ('net_ver=',Network_V,'tr_set_ver=',TrainingSet_V)
+    
+if program_mode in ['preview','train','validate']:
     import cv2 
     import pandas as pd
     from matplotlib.pyplot import *
@@ -43,6 +47,9 @@ if not program_mode=='error':
     from EyelidNet_Common import *
     from EyelidNet import *
     os.environ['KMP_DUPLICATE_LIB_OK']='True'
+else:
+    parser.print_help()
+    exit()
     
 if program_mode =='train':
     from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten,Dropout
@@ -154,21 +161,26 @@ class EyelidNet_Train(EyelidNet):
 
     def get_tr_set_epc(self):
         nSamples=shape(self.features)[0]
+        #print ('AAAA')
+        #print (nSamples)
         return [self.get_eyepixelscount(self.features[k,:]) for k in range(nSamples)] 
         
     def sortbyepc(self):
         epc=self.get_tr_set_epc()
+        
         ii=argsort(epc)
-        self.features=self.features[ii]
-        self.features_scaled=self.features_scaled[ii]
-        self.images=self.images[ii]
+        self.features=self.features[ii,:]
+        self.features_scaled=self.features_scaled[ii,:]
+        self.images=self.images[ii,:,:]
 
     #***************************************************#
     #        Graphics                                   #
     #***************************************************#    
-    def nn_peek(self):
+    def nn_peek(self,imglst:list=[]):
         img=self.images
-        for imgn in range(10,25020,5000):
+        if len(imglst)==0:
+            imglst=list(range(10,25020,5000))
+        for imgn in imglst:
         
             I=img[imgn,:,:]
             I2=img[imgn:imgn+1,:,:]
@@ -179,7 +191,7 @@ class EyelidNet_Train(EyelidNet):
             self.show_input_output(I,a_pred,newfigure=False,color='r')
             savefig('IMG/{}'.format(imgn))
             close(gcf())
-        #show()
+        
         
         
     #***************************************************#
@@ -192,18 +204,25 @@ class EyelidNet_Train(EyelidNet):
         EyelidNet_updatestatus('NN','Initialization ver ')
         
         
-        num_filters = 128 #32 for ver1, 64 for ver2, 32 for ver3
-            
-        filter_size = 2
-        pool_size = 2
+        num_filters1 = 64 
+        filter_size1 = 2
+        pool_size1 = 2
+        
+        num_filters2 = 32 
+        filter_size2 = 2
+        pool_size2 = 2
         
         model = Sequential([
-          Conv2D(num_filters, filter_size, input_shape=(40, 40, 1)),
-          MaxPooling2D(pool_size=pool_size),
-          Dropout(0.5), 
+          Conv2D(num_filters1, filter_size1, input_shape=(40, 40, 1)),
+          MaxPooling2D(pool_size=pool_size1),
+          Conv2D(num_filters2, filter_size2, input_shape=(20, 20, 1)),
+          MaxPooling2D(pool_size=pool_size2),
+          #Dropout(0.5), 
           Flatten(),
           #Dense(32,activation='softmax'),
-          Dense(EN_NFeatures*2,activation='sigmoid'),
+          Dense(128,activation='softmax'),
+          Dense(64,activation='softmax'),
+          Dense(32,activation='sigmoid'),
           Dense(EN_NFeatures, activation='sigmoid'),
             ])
 
@@ -214,6 +233,7 @@ class EyelidNet_Train(EyelidNet):
           metrics=['accuracy'],
         )
         self.model=model
+        self.model.summary()
         EyelidNet_updatestatus('NN','Initialization Complete')
     
     def nn_train(self):
@@ -246,8 +266,7 @@ class EyelidNet_Train(EyelidNet):
               validation_data=(val_images, val_feat),
               verbose=1
             )
-            
-            self.model.summary()
+
             self.nn_peek()
             self.model.save(fName_Model)
             #self.model.save_weights(self.path_nn+'EyelidsNet_v'+self.net_ver+'.{}.hd5'.format(iEpoch))
@@ -270,11 +289,15 @@ if program_mode=='preview': #preview , but don't train
     EPC=NN.get_tr_set_epc()
     #figure()
     hist(EPC,100)
-    
-    for imgn in [10,5000,10000,15000,20000,25000]:
-        img=NN.images[imgn,:,:]
-        a=NN.features[imgn,:]
-        NN.show_input_output(img,a,color='w',newfigure=True)
+    imglst=list(range(100,25000,2000))
+    img=NN.images
+    feat=NN.features
+    for imgn in imglst:
+            I=img[imgn,:,:]
+            a_gt=squeeze(feat[imgn,:])
+            NN.show_input_output(I,a_gt,newfigure=True,color='k')
+            #savefig('IMG/{}'.format(imgn))
+            #close(gcf())
     show()
 elif program_mode=='train': #train
     NN=EyelidNet_Train(tr_set_ver=TrainingSet_V,net_ver=Network_V,mode=0)
@@ -286,25 +309,37 @@ elif program_mode=='train': #train
     show()
 elif program_mode=='validate':# view results of training
     NN=EyelidNet_Train(tr_set_ver=TrainingSet_V,net_ver=Network_V,mode=1)
-    #fName=
+    #NN.sortbyepc()
     fSetName='SETS/EyelidNet_TrainingSet_v1.npz'
     with load(fSetName) as D:
         img=D['img']
         params=D['params']
-    for imgn in  range(0,26000,300):
+    EPC_GT=[]
+    EPC_PRED=[]
+    for imgn in  range(0,26000,100):
         #imgn=12
         I=img[imgn,:,:]
         I2=img[imgn:imgn+1,:,:]
         #a_gt=
         a_gt=equipoints(squeeze(params[imgn,:]))
         a_pred=NN.nn_predict(I2)
+        epc_gt=NN.get_eyepixelscount(a_gt)
+        epc_pred=NN.get_eyepixelscount(a_pred)
+        EPC_GT.append(epc_gt)
+        EPC_PRED.append(epc_pred)
         NN.show_input_output(I,a_gt,newfigure=True,color='k')
         NN.show_input_output(I,a_pred,newfigure=False,color='w')    
         savefig('IMG/{}.png'.format(imgn))
         close(gcf())
-    show()
+        if imgn%1000==0:
+            figure()
+            plot(EPC_GT,EPC_PRED,'.')
+            savefig('IMG/0_EPC.png')
+            close(gcf())
+        show()
 else:
-    print ('ERROR: use \n$ python EyelidNet_Train.py --mode=preview\n$ python EyelidNet_Train.py --mode=train\n$ python EyelidNet_Train.py --mode=validante\n*******')
+    parser.print_help()
+    #print ('ERROR: use \n$ python EyelidNet_Train.py --mode=preview\n$ python EyelidNet_Train.py --mode=train\n$ python EyelidNet_Train.py --mode=validante\n*******')
 
 
 

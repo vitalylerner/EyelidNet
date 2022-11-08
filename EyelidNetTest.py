@@ -4,14 +4,11 @@ import scipy.io as sio
 mode='Movie'
 
  
-#Network_V='1.3'
-#TrainingSet_V='1'
-#ELN=EyelidNet(tr_set_ver=TrainingSet_V,net_ver=Network_V)
 
 mov_dir='D:/Inbar_Eyeblink/EyesTrain/OriginalMat/'
 fig_cnt=0
-MOV_RECT={1:[100,200,100,200],7:[50,170,20,140],8:[20,120,10,110]}
-imov=8
+MOV_RECT={1:[100,200,100,200],7:[70,150,40,120],8:[30,90,20,80]}
+imov=7
 
 def mov_convert(imov:int):
     mov_fname_mat=mov_dir+'vid{}.mat'.format(imov)
@@ -58,10 +55,11 @@ def mov2imgseq():
     
 def nn_load():
     global ELN
-    Network_V='1.4'
+    Network_V='1.6'
     TrainingSet_V='1'
     ELN=EyelidNet(tr_set_ver=TrainingSet_V,net_ver=Network_V)
-start_from_npz=False
+    
+start_from_npz=True
 start_from_cropped=True
 start_nn=True
 show_analysis=False
@@ -85,7 +83,7 @@ if start_nn:
     result_npz=mov_dir+'movie{}_analysis.npz'.format(imov)
 
     
-    for imgn in range(0,nimages,30):
+    for imgn in range(0,nimages,10):
         #print (nimages,imgn)
         img=IMG_CROP[imgn:imgn+1,:,:]
         img0=squeeze(IMG_CROP[imgn,:,:])
@@ -93,13 +91,14 @@ if start_nn:
         epc=ELN.get_eyepixelscount(a)
         EPC[imgn]=epc
         A[imgn,:]=a
-        if imgn%300==0:
+        if imgn%100==0:
             print('{}/{}     '.format(imgn,nimages),end='\r')
             savez(result_npz,EPC=EPC,A=A)
-        f=figure() 
-        ELN.show_input_output(img0,a,False)
-        savefig('IMG/{}.png'.format(imgn))
-        close(f)
+            
+            f=figure() 
+            ELN.show_input_output(img0,a,False)
+            savefig('IMG/{}.png'.format(imgn))
+            close(f)
     #mov_preview()
     savez(result_npz,EPC=EPC,A=A)    
     #cv2.waitKey(0)    

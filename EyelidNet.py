@@ -94,17 +94,12 @@ class EyelidNet:
     #***************************************************#
 
     def get_eyepixelscount(self,a):
-        if False:
+        x0,x1,x2,x3=a[0],a[1],a[2],a[3]
+        y0,y1,y2,y3=a[4],a[5],a[6],a[7]
         
-            x,yUp,yDown=self.get_eyelids(a)
-            return int(sum(abs(yUp-yDown)))
-        else:
-            x0,x1,x2,x3=a[0],a[1],a[2],a[3]
-            y0,y1,y2,y3=a[4],a[5],a[6],a[7]
-            
-            d1=sqrt((x2-x0)**2+(y2-y0)**2)
-            d2=sqrt((x3-x1)**2+(y3-y1)**2)
-            return 0.9*d2 +0.1*d1
+        d1=sqrt((x2-x0)**2+(y2-y0)**2)
+        d2=sqrt((x3-x1)**2+(y3-y1)**2)
+        return 0.95*d2 +0.05*d1
             
     def get_eyelids(self,a):
         if False: 
