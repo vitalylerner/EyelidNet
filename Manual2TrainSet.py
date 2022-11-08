@@ -14,7 +14,7 @@ import os
 import pandas as pd
 from scipy import ndimage
 
-from EyelidNet_Error import *
+from EyelidNet_Common import *
 
 class EyelidNet_Manual2Dataset():
 

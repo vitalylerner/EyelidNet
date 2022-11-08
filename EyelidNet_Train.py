@@ -1,22 +1,27 @@
-# conda install nomkl
+#*************************************#
+#    EyelidNet
+# Vitay Lerner 2022
+# Creates and trains the network
+#*************************************#
+
+
+# if there's a problem with some dual library 
+# $ conda install nomkl
+
+
+
+
 import cv2 
-from scipy import signal
 import pandas as pd
 from matplotlib.pyplot import *
 import os
 from numpy import *
-from EyelidNet_Error import *
+from EyelidNet_Common import *
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Dense, Flatten,Dropout
 from tensorflow.keras.models import Sequential,load_model
-#from tensorflow.keras.model
-fNameT='../EyesTrain/test01_img{:06d}.png'
+
 
 os.environ['KMP_DUPLICATE_LIB_OK']='True'
-def getimg(imgn:int):
-    fName=fNameT.format(imgn)
-    img = cv2.imread(fName)
-    return img[y1:y2,x1:x2,1]
-	
 	
 	
 class EyelidNet_Train:
